@@ -3,7 +3,7 @@ namespace Api.Interfaces;
 
 public interface INotesService
 {
-    Task<object> GetAllAsync(NoteQueryParams queryParams);
+    Task<PagedResult<NoteDto>> GetAllAsync(NoteQueryParams queryParams);
     Task<NoteDto?> GetByIdAsync(int id);
     Task<NoteDto> CreateAsync(NoteCreateDto dto);
     Task<bool> UpdateAsync(int id, NoteUpdateDto dto);

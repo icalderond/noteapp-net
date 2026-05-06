@@ -13,7 +13,7 @@ public class NotesService : INotesService
         _context = context;
     }
 
-    public async Task<object> GetAllAsync(NoteQueryParams query)
+    public async Task<PagedResult<NoteDto>> GetAllAsync(NoteQueryParams query)
     {
 
         var notesQuery = _context.Notes.AsQueryable();
@@ -56,7 +56,7 @@ public class NotesService : INotesService
             })
             .ToListAsync();
 
-        return new
+        return new PagedResult<NoteDto>
         {
             Total = total,
             Page = query.Page,
