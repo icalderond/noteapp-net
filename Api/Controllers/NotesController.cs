@@ -16,9 +16,9 @@ public class NotesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] NoteQueryParams queryParams)
     {
-        var notes = await _notesService.GetAllAsync();
+        var notes = await _notesService.GetAllAsync(queryParams);
         return Ok(notes);
     }
 

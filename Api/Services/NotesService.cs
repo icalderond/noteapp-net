@@ -13,17 +13,56 @@ public class NotesService : INotesService
         _context = context;
     }
 
-    public async Task<IEnumerable<NoteDto>> GetAllAsync()
+    public async Task<object> GetAllAsync(NoteQueryParams query)
     {
-     var notes = await _context.Notes.ToListAsync();
 
-     return notes.Select(note => new NoteDto
-     {
-         Id = note.Id,
-         Title = note.Title,
-         Content = note.Content,
-         CreatedAt = note.CreatedAt
-     });
+        var notesQuery = _context.Notes.AsQueryable();
+
+        // 🔍 Filtro (search)
+        if (!string.IsNullOrEmpty(query.Search))
+        {
+            notesQuery = notesQuery.Where(n =>
+                n.Title.Contains(query.Search) ||
+                n.Content.Contains(query.Search));
+        }
+
+        // 🔽 Ordenamiento
+        notesQuery = query.SortBy?.ToLower() switch
+        {
+            "title" => query.Desc
+                ? notesQuery.OrderByDescending(n => n.Title)
+                : notesQuery.OrderBy(n => n.Title),
+
+            "createdat" => query.Desc
+                ? notesQuery.OrderByDescending(n => n.CreatedAt)
+                : notesQuery.OrderBy(n => n.CreatedAt),
+
+            _ => notesQuery.OrderByDescending(n => n.CreatedAt)
+        };
+
+        // 📊 Total antes de paginar
+        var total = await notesQuery.CountAsync();
+
+        // 📄 Paginación
+        var data = await notesQuery
+            .Skip((query.Page - 1) * query.PageSize)
+            .Take(query.PageSize)
+            .Select(n => new NoteDto
+            {
+                Id = n.Id,
+                Title = n.Title,
+                Content = n.Content,
+                CreatedAt = n.CreatedAt
+            })
+            .ToListAsync();
+
+        return new
+        {
+            Total = total,
+            Page = query.Page,
+            PageSize = query.PageSize,
+            Data = data
+        };
     }
 
     public async Task<NoteDto?> GetByIdAsync(int id)
