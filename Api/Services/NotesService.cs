@@ -13,35 +13,62 @@ public class NotesService : INotesService
         _context = context;
     }
 
-    public async Task<IEnumerable<Note>> GetAllAsync()
+    public async Task<IEnumerable<NoteDto>> GetAllAsync()
     {
-        return await _context.Notes.ToListAsync();
+     var notes = await _context.Notes.ToListAsync();
+
+     return notes.Select(note => new NoteDto
+     {
+         Id = note.Id,
+         Title = note.Title,
+         Content = note.Content,
+         CreatedAt = note.CreatedAt
+     });
     }
 
-    public async Task<Note?> GetByIdAsync(int id)
+    public async Task<NoteDto?> GetByIdAsync(int id)
     {
-        return await _context.Notes.FindAsync(id);
+        var dto = await _context.Notes.FindAsync(id);
+
+        return dto == null ? null : new NoteDto
+        {
+            Id = dto.Id,
+            Title = dto.Title,
+            Content = dto.Content,
+            CreatedAt = dto.CreatedAt
+        };
     }
 
-    public async Task<Note> CreateAsync(Note note)
+    public async Task<NoteDto> CreateAsync(NoteCreateDto dto)
     {
-        note.CreatedAt = DateTime.UtcNow;
+        var note = new Note
+        {
+            Title = dto.Title,
+            Content = dto.Content,
+            CreatedAt = DateTime.UtcNow
+        };
 
         _context.Notes.Add(note);
         await _context.SaveChangesAsync();
 
-        return note;
+        return new NoteDto
+        {
+            Id = note.Id,
+            Title = note.Title,
+            Content = note.Content,
+            CreatedAt = note.CreatedAt
+        };
     }
 
-    public async Task<bool> UpdateAsync(int id, Note updatedNote)
+    public async Task<bool> UpdateAsync(int id, NoteUpdateDto dto)
     {
         var note = await _context.Notes.FindAsync(id);
 
         if (note == null)
             return false;
 
-        note.Title = updatedNote.Title;
-        note.Content = updatedNote.Content;
+        note.Title = dto.Title;
+        note.Content = dto.Content;
         note.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();

@@ -34,16 +34,16 @@ public class NotesController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(Note note)
+    public async Task<IActionResult> Create([FromBody] NoteCreateDto dto)
     {
-        var createdNote = await _notesService.CreateAsync(note);
+        var createdNote = await _notesService.CreateAsync(dto);
         return CreatedAtAction(nameof(GetById), new { id = createdNote.Id }, createdNote);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateNote(int id, Note note)
+    public async Task<IActionResult> UpdateNote(int id, NoteUpdateDto dto)
     {
-        var updatedNote = await _notesService.UpdateAsync(id, note);
+        var updatedNote = await _notesService.UpdateAsync(id, dto);
         if (updatedNote == null)
         {
             return NotFound();

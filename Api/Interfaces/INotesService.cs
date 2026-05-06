@@ -3,9 +3,9 @@ namespace Api.Interfaces;
 
 public interface INotesService
 {
-    Task<IEnumerable<Note>> GetAllAsync();
-    Task<Note?> GetByIdAsync(int id);
-    Task<Note> CreateAsync(Note note);
-    Task<bool> UpdateAsync(int id, Note note);
+    Task<IEnumerable<NoteDto>> GetAllAsync();
+    Task<NoteDto?> GetByIdAsync(int id);
+    Task<NoteDto> CreateAsync(NoteCreateDto dto);
+    Task<bool> UpdateAsync(int id, NoteUpdateDto dto);
     Task<bool> DeleteAsync(int id);
 }
