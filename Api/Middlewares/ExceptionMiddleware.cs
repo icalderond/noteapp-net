@@ -1,3 +1,5 @@
+namespace Api.Middlewares;
+
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;

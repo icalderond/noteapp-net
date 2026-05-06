@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Api.Interfaces;
 using Api.Services;
+using Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<INotesService, NotesService>();
-builder.Services.AddScoped<ExceptionMiddleware>();
 
 var app = builder.Build();
 
@@ -31,7 +31,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 app.Run();
