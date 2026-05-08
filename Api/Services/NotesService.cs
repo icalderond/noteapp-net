@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Models;
 using Application.Dtos;
 using Domain.Models;
+using Infraestructure;
 
 namespace Api.Services;
 

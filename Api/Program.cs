@@ -1,14 +1,12 @@
-using Microsoft.EntityFrameworkCore;
-using Application.Interfaces;
-using Api.Services;
 using Api.Middlewares;
+using Api.Services;
+using Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Infraestructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(5001);
-});
+builder.WebHost.ConfigureKestrel(options => options.ListenAnyIP(5001));
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
