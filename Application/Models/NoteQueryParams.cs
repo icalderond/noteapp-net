@@ -1,4 +1,4 @@
-namespace Api.Models;
+namespace Application.Models;
 
 public class NoteQueryParams
 {

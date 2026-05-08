@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Api.Models;
 using Domain.Models;
 
 public class AppDbContext : DbContext

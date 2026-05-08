@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Api.Interfaces;
-using Api.Models;
+using Application.Interfaces;
+using Application.Models;
+using Application.Dtos;
 using Domain.Models;
 
 namespace Api.Services;
@@ -100,12 +101,12 @@ public class NotesService : INotesService
         };
     }
 
-    public async Task<bool> UpdateAsync(int id, NoteUpdateDto dto)
+    public async Task<NoteDto?> UpdateAsync(int id, NoteUpdateDto dto)
     {
         var note = await _context.Notes.FindAsync(id);
 
         if (note == null)
-            return false;
+            return null;
 
         note.Title = dto.Title;
         note.Content = dto.Content;
@@ -113,7 +114,13 @@ public class NotesService : INotesService
 
         await _context.SaveChangesAsync();
 
-        return true;
+        return new NoteDto
+        {
+            Id = note.Id,
+            Title = note.Title,
+            Content = note.Content,
+            CreatedAt = note.CreatedAt
+        };
     }
 
     public async Task<bool> DeleteAsync(int id)

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Api.Interfaces;
-using Api.Models;
+using Application.Interfaces;
+using Application.Dtos;
+using Application.Models;
 
 namespace Api.Controllers;
 

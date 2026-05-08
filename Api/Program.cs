@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Api.Interfaces;
+using Application.Interfaces;
 using Api.Services;
 using Api.Middlewares;
 

@@ -1,4 +1,4 @@
-namespace Api.Models;
+namespace Application.Dtos;
 public class NoteDto
 {
     public int Id { get; set; }
