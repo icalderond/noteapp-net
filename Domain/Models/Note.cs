@@ -1,4 +1,4 @@
-namespace Api.Models;
+namespace Domain.Models;
 
 public class Note
 {

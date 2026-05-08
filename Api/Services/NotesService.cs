@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Api.Interfaces;
 using Api.Models;
+using Domain.Models;
 
 namespace Api.Services;
 
